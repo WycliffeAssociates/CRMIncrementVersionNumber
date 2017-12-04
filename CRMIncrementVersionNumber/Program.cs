@@ -32,7 +32,7 @@ namespace CRMIncrementVersionNumber
 
             if (result.Entities.Count == 0)
             {
-                Console.WriteLine("Can't find a solution with the uniquename " + arguments.Solution);
+                Console.WriteLine("Can't find a solution with the unique name " + arguments.Solution);
                 Environment.Exit(3);
             }
 
@@ -68,7 +68,7 @@ namespace CRMIncrementVersionNumber
             {
                 if (!int.TryParse(s, out tmp))
                 {
-                    throw new Exception("Invalid version number " + s);
+                    throw new Exception("Invalid version number component " + s);
                 }
                 output.Add(tmp);
             }
