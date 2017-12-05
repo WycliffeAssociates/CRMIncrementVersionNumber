@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CRMIncrementVersionNumber
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -38,29 +38,46 @@ namespace CRMIncrementVersionNumber
 
             Entity solution = result.Entities[0];
 
-            List<int> currentVersion = ParseVersion((string)solution["version"]);
-            List<int> incrementVersion = ParseVersion(arguments.VersionNumber);
-
-            for (int i = 0; i < incrementVersion.Count; i++)
-            {
-                if (i >= currentVersion.Count)
-                {
-                    currentVersion.Add(incrementVersion[i] < 0 ? 0 : incrementVersion[i]);
-                }
-                else
-                {
-                    currentVersion[i] += incrementVersion[i];
-                }
-            }
-
-            string versionNumber = string.Join(".", currentVersion);
+            string versionNumber = IncrementVersionNumber((string)solution["version"], arguments.VersionNumber);
 
             Console.WriteLine("Setting Version number to " + versionNumber);
 
             solution["version"] = versionNumber;
             service.Update(solution);
         }
-        private static List<int> ParseVersion(string version)
+
+        /// <summary>
+        /// Increment a version number
+        /// </summary>
+        /// <param name="currentVersion"></param>
+        /// <param name="incrementVersion"></param>
+        /// <returns></returns>
+        public static string IncrementVersionNumber(string currentVersion, string incrementVersion)
+        {
+            List<int> input = ParseVersion(currentVersion);
+            List<int> increment = ParseVersion(incrementVersion);
+
+            for (int i = 0; i < increment.Count; i++)
+            {
+                if (i >= input.Count)
+                {
+                    input.Add(increment[i] < 0 ? 0 : increment[i]);
+                }
+                else
+                {
+                    input[i] += increment[i];
+                }
+            }
+
+            return string.Join(".", input);
+        }
+
+        /// <summary>
+        /// Parse a version number from a string to a list of ints
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public static List<int> ParseVersion(string version)
         {
             List<int> output = new List<int>();
             int tmp;
