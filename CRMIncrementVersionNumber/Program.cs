@@ -61,11 +61,20 @@ namespace CRMIncrementVersionNumber
             {
                 if (i >= input.Count)
                 {
-                    input.Add(increment[i] < 0 ? 0 : increment[i]);
+                    input.Add(increment[i]);
                 }
                 else
                 {
                     input[i] += increment[i];
+                }
+            }
+
+            // Make sure all items are positive
+            for (int i = 0; i < input.Count; i++)
+            {
+                if (input[i] < 0)
+                {
+                    input[i] = 0;
                 }
             }
 
