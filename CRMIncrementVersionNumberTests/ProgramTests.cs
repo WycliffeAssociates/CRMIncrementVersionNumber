@@ -38,5 +38,11 @@ namespace CRMIncrementVersionNumberTests
         {
             Assert.AreEqual("1.2.3", Program.IncrementVersionNumber("1.2", "0.0.3"));
         }
+
+        [TestMethod]
+        public void TestWithLargeNegativeIncrement()
+        {
+            Assert.AreEqual("1.3.0", Program.IncrementVersionNumber("1.2.9", "0.1.-1000"));
+        }
     }
 }
